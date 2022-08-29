@@ -10,7 +10,7 @@ import java.util.*;
 public final class OverheatingDetector extends Thread {
 
     private static final double DEFAULT_LOW_TEMPERATURE = 50.0;
-    private static final double DEFAULT_HIGH_TEMPERATURE = 80.0;
+    private static final double DEFAULT_HIGH_TEMPERATURE = 70.0;
 
     private static final int TIME_INTERVAL = 1000;
 
