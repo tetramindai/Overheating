@@ -1,2 +1,1 @@
-# overheating-detector
-Overheating Detector
+# Overheating Detector
