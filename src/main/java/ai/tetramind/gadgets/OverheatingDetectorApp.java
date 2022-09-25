@@ -1,4 +1,4 @@
-package ai.tetramind.gadgets.overheating.detector;
+package ai.tetramind.gadgets;
 
 
 import ai.tetramind.gadgets.overheating.detector.engine.OverheatingDetector;
