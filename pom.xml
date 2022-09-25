@@ -4,7 +4,7 @@
 
     <groupId>ai.tetramind.gadgets</groupId>
     <artifactId>overheating-detector</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
 
     <properties>
@@ -19,7 +19,6 @@
             <artifactId>jSensors</artifactId>
             <version>2.2.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
