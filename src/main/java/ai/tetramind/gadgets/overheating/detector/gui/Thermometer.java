@@ -7,9 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public final class Thermometer extends JPanel {
-
     private static final int MARGIN = 3;
-    private static final double MAX_VALUE = Helper.celsiusToKelvin(110.0); // °C
 
     private double value; // °K
 
@@ -23,32 +21,17 @@ public final class Thermometer extends JPanel {
         repaint();
     }
 
-    private Color color() {
-
-        var result = Color.DARK_GRAY;
-
-        if (value <= Resources.COLD_TEMPERATURE) {
-            result = Color.blue;
-        } else if (value < Resources.HIGH_TEMPERATURE) {
-            result = Color.ORANGE;
-        } else {
-            result = Color.RED;
-        }
-
-        return result;
-    }
-
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics graphics) {
 
-        super.paint(g);
+        super.paint(graphics);
 
-        var height = getHeight() - MARGIN;
-        var width = getWidth() - MARGIN;
+        var height = this.getHeight() - MARGIN;
+        var width = this.getWidth() - MARGIN;
 
-        var percentage = Math.min(1.0, Math.abs(value / MAX_VALUE));
+        var percentage = Math.min(1.0, Math.max(0, Helper.kelvinToCelsius(value) / Helper.kelvinToCelsius(Resources.CRITICAL_TEMPERATURE)));
 
-        g.setColor(color());
-        g.fillRect(MARGIN, (int) (height - (height * percentage)), width - MARGIN, (int) (height * percentage));
+        graphics.setColor(Helper.temperatureColor(value));
+        graphics.fillRect(MARGIN, (int) (height - (height * percentage)), width - MARGIN, (int) (height * percentage));
     }
 }

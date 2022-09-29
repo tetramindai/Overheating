@@ -9,6 +9,10 @@ import java.awt.*;
 import java.util.Map;
 
 public final class OverheatingNotification extends JFrame {
+
+    private static final Color BORDER_COLOR = Color.decode("#154a41");
+    private static final Color BACKGROUND_COLOR = Color.DARK_GRAY; // Color.decode("#154a41");
+
     private static final String TEMPERATURE_MESSAGE = "%.2f °C";
 
     private static final Font DANGER_FONT = new Font("Serif", Font.BOLD, 24);
@@ -33,17 +37,20 @@ public final class OverheatingNotification extends JFrame {
         temperatureLabel.setVerticalAlignment(SwingConstants.CENTER);
         temperatureLabel.setForeground(Color.RED);
         temperatureLabel.setFont(DANGER_FONT);
-        temperatureLabel.setBorder(BorderFactory.createLineBorder(Color.orange, 4));
+        temperatureLabel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 4));
+        temperatureLabel.setBackground(BACKGROUND_COLOR);
 
 
         var thermometersPanel = new JPanel();
         thermometersPanel.setLayout(new GridLayout(1, size));
+        thermometersPanel.setBackground(BACKGROUND_COLOR);
 
 
         thermometers = new Thermometer[size];
         for (int i = 0; i < thermometers.length; i++) {
             thermometers[i] = new Thermometer();
-            thermometers[i].setBorder(BorderFactory.createLineBorder(Color.orange, 2));
+            thermometers[i].setBackground(BACKGROUND_COLOR);
+            thermometers[i].setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 2));
             thermometersPanel.add(thermometers[i]);
         }
 
@@ -52,7 +59,7 @@ public final class OverheatingNotification extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.DARK_GRAY);
+        getContentPane().setBackground(BACKGROUND_COLOR);
 
 
         add(thermometersPanel, BorderLayout.CENTER);
@@ -99,7 +106,7 @@ public final class OverheatingNotification extends JFrame {
         }
 
         temperatureLabel.setText(String.format(TEMPERATURE_MESSAGE, Helper.kelvinToCelsius(maxKelvin)));
-        temperatureLabel.setForeground((maxKelvin > Resources.HIGH_TEMPERATURE) ? Color.RED : Color.blue);
+        temperatureLabel.setForeground(Helper.temperatureColor(maxKelvin));
     }
 
     public void changeTemperatures(@NotNull Map<String, Double> temperatures) {

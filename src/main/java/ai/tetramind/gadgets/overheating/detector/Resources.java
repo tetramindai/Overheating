@@ -21,12 +21,14 @@ public final class Resources {
     private static final String TEMPERATURE_KEY = "temperature";
     private static final String HIGH_KEY = "high";
     private static final String COLD_KEY = "cold";
+    private static final String CRITICAL_KEY = "critical";
 
     private static final JSONObject CONFIG = readConfig();
 
 
     public static final double HIGH_TEMPERATURE = Helper.celsiusToKelvin(readHighTemperature()); // °K
     public static final double COLD_TEMPERATURE = Helper.celsiusToKelvin(readColdTemperature()); // °K
+    public static final double CRITICAL_TEMPERATURE = Helper.celsiusToKelvin(readCriticalTemperature()); // °K
 
 
     public static Image ICON = Toolkit.getDefaultToolkit().getImage(Resources.class.getResource(ICON_FILE_NAME));
@@ -43,6 +45,20 @@ public final class Resources {
 
         return temperature.getDouble(HIGH_KEY);
     }
+
+    private static double readCriticalTemperature() {
+
+        assert CONFIG.has(TEMPERATURE_KEY);
+
+        var temperature = CONFIG.getJSONObject(TEMPERATURE_KEY);
+
+        assert temperature != null;
+
+        assert temperature.has(CRITICAL_KEY);
+
+        return temperature.getDouble(CRITICAL_KEY);
+    }
+
 
     private static double readColdTemperature() {
 
