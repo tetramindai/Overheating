@@ -1,5 +1,7 @@
 package ai.tetramind.gadgets.overheating.detector.engine;
 
+import ai.tetramind.gadgets.overheating.detector.Resources;
+import ai.tetramind.gadgets.overheating.detector.helper.Helper;
 import com.profesorfalken.jsensors.JSensors;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,8 +11,6 @@ import java.util.*;
 
 public final class OverheatingDetector extends Thread {
 
-    private static final double DEFAULT_LOW_TEMPERATURE = 20.0;
-    private static final double DEFAULT_HIGH_TEMPERATURE = 30.0;
 
     private static final int TIME_INTERVAL = 1000;
 
@@ -22,7 +22,7 @@ public final class OverheatingDetector extends Thread {
     private final double highTemperature;
 
     public OverheatingDetector() {
-        this(DEFAULT_LOW_TEMPERATURE, DEFAULT_HIGH_TEMPERATURE);
+        this(Resources.COLD_TEMPERATURE, Resources.HIGH_TEMPERATURE);
     }
 
     public OverheatingDetector(double lowTemperature, double highTemperature) {
@@ -123,12 +123,11 @@ public final class OverheatingDetector extends Thread {
             for (var cpu : cpus) {
                 if (cpu.sensors != null) {
                     for (var temperature : cpu.sensors.temperatures) {
-                        temperatures.put(temperature.name, temperature.value);
+                        temperatures.put(temperature.name, Helper.celsiusToKelvin(temperature.value));
                     }
                 }
             }
         }
-
 
         var gpus = components.gpus;
         if (gpus != null) {
@@ -136,13 +135,12 @@ public final class OverheatingDetector extends Thread {
                 if (gpu != null) {
                     if (gpu.sensors != null) {
                         for (var temperature : gpu.sensors.temperatures) {
-                            temperatures.put(temperature.name, temperature.value);
+                            temperatures.put(temperature.name, Helper.celsiusToKelvin(temperature.value));
                         }
                     }
                 }
             }
         }
-
 
         return temperatures;
     }

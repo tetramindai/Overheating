@@ -1,5 +1,7 @@
 package ai.tetramind.gadgets.overheating.detector.gui;
 
+import ai.tetramind.gadgets.overheating.detector.Resources;
+import ai.tetramind.gadgets.overheating.detector.helper.Helper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -56,7 +58,7 @@ public final class OverheatingNotification extends JFrame {
         add(thermometersPanel, BorderLayout.CENTER);
         add(temperatureLabel, BorderLayout.PAGE_END);
 
-        setIconImage(Toolkit.getDefaultToolkit().getImage(OverheatingNotification.class.getResource("/logo.png")));
+        setIconImage(Resources.ICON);
 
         initLocation();
     }
@@ -89,33 +91,32 @@ public final class OverheatingNotification extends JFrame {
     }
 
     private void displayTemperature(double[] temperatures) {
+
         var maxKelvin = 0.0;
 
         for (var temperature : temperatures) {
             maxKelvin = Math.max(maxKelvin, temperature);
         }
 
-        double maxCelsius = maxKelvin - 273.15;
-
-        temperatureLabel.setText(String.format(TEMPERATURE_MESSAGE, maxCelsius));
+        temperatureLabel.setText(String.format(TEMPERATURE_MESSAGE, Helper.kelvinToCelsius(maxKelvin)));
+        temperatureLabel.setForeground((maxKelvin > Resources.HIGH_TEMPERATURE) ? Color.RED : Color.blue);
     }
 
     public void changeTemperatures(@NotNull Map<String, Double> temperatures) {
 
-        var array = new double[temperatures.size()];
+        var size = temperatures.size();
+
+        var array = new double[size];
 
         var index = 0;
-
         for (var temperature : temperatures.values()) {
             array[index++] = temperature;
         }
-
 
         changeTemperatures(array);
     }
 
     public void changeTemperatures(double[] temperatures) {
-
         displayTemperature(temperatures);
         drawThermometers(temperatures);
     }

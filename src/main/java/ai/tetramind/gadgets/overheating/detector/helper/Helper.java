@@ -2,17 +2,27 @@ package ai.tetramind.gadgets.overheating.detector.helper;
 
 public final class Helper {
 
+    private static final double ABSOLUTE_ZERO = -273.15;
+
     private Helper() {
     }
 
 
-    private static double kelvinToCelsius(double value) {
+    public static double kelvinToCelsius(Double value) {
 
-        return 0;
+        if (value == null) {
+            value = 0.0;
+        }
+
+        return value + ABSOLUTE_ZERO;
     }
 
-    private static double celsiusToKelvin(double value) {
+    public static double celsiusToKelvin(Double value) {
 
-        return 0;
+        if (value == null) {
+            value = 0.0;
+        }
+
+        return value - ABSOLUTE_ZERO;
     }
 }
